@@ -45,7 +45,8 @@ defmodule Cookpod.MixProject do
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
-      {:excoveralls, "~> 0.12.3"}
+      {:excoveralls, "~> 0.12.3"},
+      {:phoenix_slime, "~> 0.13.1"}
     ]
   end
 
