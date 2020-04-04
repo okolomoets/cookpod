@@ -1,3 +1,4 @@
+![Elixir CI](https://github.com/okolomoets/cookpod/workflows/Elixir%20CI/badge.svg) 
 [![codebeat badge](https://codebeat.co/badges/7f303c4d-7bfa-4093-bda2-9befe820564a)](https://codebeat.co/projects/github-com-okolomoets-cookpod-master)
 
 # Cookpod
