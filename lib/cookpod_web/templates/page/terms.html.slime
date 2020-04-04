@@ -1,1 +1,1 @@
-p Terms and Conditions
+p <%= gettext "Terms and conditions." %>
