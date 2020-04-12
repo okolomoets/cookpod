@@ -10,16 +10,26 @@ defmodule CookpodWeb.Router do
     plug BasicAuth, use_config: {:cookpod, :basic_auth}
   end
 
+  pipeline :auth do
+    plug CookpodWeb.AuthPlug
+  end
+
   pipeline :api do
     plug :accepts, ["json"]
   end
 
   scope "/", CookpodWeb do
-    pipe_through :browser
+    pipe_through [:browser, :auth]
 
     get "/", PageController, :index
     get "/terms", PageController, :terms
-    resources "/sessions", SessionController, singleton: true
+    resources "/sessions", SessionController, singleton: true, except: [:new, :create]
+  end
+
+  scope "/", CookpodWeb do
+    pipe_through :browser
+
+    resources "/sessions", SessionController, singleton: true, only: [:new, :create]
   end
 
   # Other scopes may use custom stacks.

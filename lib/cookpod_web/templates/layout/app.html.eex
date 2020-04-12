@@ -10,16 +10,13 @@
   </head>
   <body>
     <header>
+    <%= if assigns[:current_user] do %>
       <section class="container">
-        <nav role="navigation">
-          <ul>
-            <li><a href="https://hexdocs.pm/phoenix/overview.html">Get Started</a></li>
-          </ul>
-        </nav>
-        <a href="https://phoenixframework.org/" class="phx-logo">
-          <img src="<%= Routes.static_path(@conn, "/images/phoenix.png") %>" alt="Phoenix Framework Logo"/>
-        </a>
+        <div>
+          Current User: <%= assigns[:current_user] %>
+        </div>
       </section>
+      <% end %>
     </header>
     <main role="main" class="container">
       <% if get_flash(@conn, :info) do %>
