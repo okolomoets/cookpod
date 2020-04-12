@@ -30,6 +30,12 @@ config :phoenix, :template_engines,
        slime: PhoenixSlime.Engine
 
 config :cookpod, CookpodWeb.Gettext, locales: ["en", "ru"], default_locale: "ru"
+
+config :cookpod, basic_auth: [
+  username: "admin",
+  password: "some_pass",
+  realm: "Closed Area"
+]
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env()}.exs"
