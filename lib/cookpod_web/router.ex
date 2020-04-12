@@ -18,6 +18,7 @@ defmodule CookpodWeb.Router do
 
     get "/", PageController, :index
     get "/terms", PageController, :terms
+    resources "/sessions", SessionController, singleton: true
   end
 
   # Other scopes may use custom stacks.
