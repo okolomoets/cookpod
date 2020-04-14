@@ -1,4 +1,5 @@
 defmodule CookpodWeb.AuthPlug do
+  @moduledoc false
   import Plug.Conn, only: [get_session: 2, assign: 3, halt: 1]
   import Phoenix.Controller, only: [redirect: 2]
   alias CookpodWeb.Router.Helpers, as: Routes
