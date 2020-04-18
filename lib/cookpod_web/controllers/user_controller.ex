@@ -8,15 +8,15 @@ defmodule CookpodWeb.UserController do
     changeset = User.new_changeset()
     render(conn, "new.html", changeset: changeset)
   end
-  
+
   def create(conn, %{"user" => attrs}) do
     changeset = User.changeset(%User{}, attrs)
     case Repo.insert(changeset) do
-      { :ok, user} -> 
+      {:ok, user} -> 
         conn
         |> put_session(:current_user, user)
         |> redirect(to: Routes.page_path(conn, :index))
-      { :error, changeset } ->
+      {:error, changeset} ->
         render(conn, "new.html", changeset: changeset)
     end
   end
