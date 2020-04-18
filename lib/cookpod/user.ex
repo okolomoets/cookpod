@@ -16,6 +16,7 @@ defmodule Cookpod.User do
     user
     |> cast(attrs, [:email, :password])
     |> validate_required([:email])
+    |> validate_change(:email, &check_email/2)
     |> validate_confirmation(:password, message: "Passwords does not match")
     |> encrypt_password()
     |> unique_constraint(:email)
@@ -25,6 +26,16 @@ defmodule Cookpod.User do
     changeset(%Cookpod.User{}, %{})
   end
 
+  defp check_email(:email, email) do 
+    mx_servers = fetch_mx_servers(email)
+    
+    if Enum.empty?(mx_servers) do 
+      [email: "not valid"]
+    else
+      []
+    end
+  end
+
   def encrypt_password(changeset) do
     case Map.fetch(changeset.changes, :password) do
       {:ok, password} -> 
@@ -32,5 +43,13 @@ defmodule Cookpod.User do
       :error -> 
         changeset
     end
+  end
+
+  defp fetch_mx_servers(email) do 
+    email
+    |> String.split("@", trim: true)
+    |> List.last()
+    |> to_charlist
+    |> :inet_res.lookup(:in, :mx)
   end
 end
