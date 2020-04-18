@@ -5,6 +5,7 @@ defmodule Cookpod.User do
   schema "users" do
     field :email, :string
     field :password, :string, virtual: true
+    field :password_confirmtion, :string, virtual: true
     field :password_hash, :string
 
     timestamps()
@@ -15,6 +16,7 @@ defmodule Cookpod.User do
     user
     |> cast(attrs, [:email, :password])
     |> validate_required([:email])
+    |> validate_confirmation(:password, message: "Passwords does not match")
     |> encrypt_password()
     |> unique_constraint(:email)
   end
