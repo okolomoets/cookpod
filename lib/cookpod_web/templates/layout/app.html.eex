@@ -13,7 +13,7 @@
     <%= if assigns[:current_user] do %>
       <section class="container">
         <div>
-          Current User: <%= assigns[:current_user] %>
+          Current User: <%= assigns[:current_user].email %>
         </div>
       </section>
       <% end %>
