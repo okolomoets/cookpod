@@ -1,0 +1,19 @@
+.mt-4
+  = form_for @changeset, Routes.user_path(@conn, :create), fn form -> 
+    .form-group.row
+      = label(form, :email, "Email", class: "col-sm-1 col-form-label")
+      .col-sm-4
+        = text_input(form, :email, class: form_control(form, :email), placeholder: "Email")
+        = error_tag(form, :email)
+    .form-group.row
+      = label(form, :password, "Password", class: "col-sm-1 col-form-label")
+      .col-sm-4
+        = password_input(form, :password, class: form_control(form, :password), placeholder: "Password")
+        = error_tag(form, :password)
+    .form-group.row
+      = label(form, :password, "Password confirmation", class: "col-sm-1 col-form-label")
+      .col-sm-4
+        = password_input(form, :password_confirmation, class: form_control(form, :password_confirmation), placeholder: "Password confirmation")
+        = error_tag(form, :password_confirmation)  
+    .form-group.row
+      = submit("Submit", class: "btn btn-primary")    

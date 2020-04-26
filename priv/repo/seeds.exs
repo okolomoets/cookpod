@@ -9,3 +9,11 @@
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
+
+alias Cookpod.User
+alias Cookpod.Repo
+
+admin = User.changeset(%User{}, %{email: "admin@gmail.com", password: "admin_pass"})
+user = User.changeset(%User{}, %{email: "user@gmail.com", password: "user_pass"})
+Repo.insert!(admin)
+Repo.insert!(user)

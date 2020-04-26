@@ -2,10 +2,14 @@ defmodule CookpodWeb.SessionControllerTest do
   use CookpodWeb.ConnCase
   import Plug.Test
 
+  alias Cookpod.User
+  alias Cookpod.Repo
+
   # SHOW
   test "GET /sessions when not authorized", %{conn: conn} do
+    user = %Cookpod.User{email: "test@gmail.com"}
     conn = conn
-      |> init_test_session(%{current_user: "test"})
+      |> init_test_session(%{current_user: user})
       |> get(Routes.session_path(conn, :show))
     assert text_response(conn, 401) =~ "401 Unauthorized"
   end
@@ -18,8 +22,9 @@ defmodule CookpodWeb.SessionControllerTest do
   end
 
   test "GET /sessions when authorized", %{conn: conn} do
+    user = %Cookpod.User{email: "test@gmail.com"}
     conn = conn
-      |> init_test_session(%{current_user: "test"})
+      |> init_test_session(%{current_user: user})
       |> put_req_header("authorization", "Basic " <> Base.encode64("admin:some_pass"))
       |> get(Routes.session_path(conn, :show))
     assert html_response(conn, 200) =~ "You are logged in"
@@ -48,10 +53,13 @@ defmodule CookpodWeb.SessionControllerTest do
   end
 
   test "POST /sessions when authorized", %{conn: conn} do
+    User.changeset(%User{}, %{email: "test@gmail.com", password: "doe", password_confirmtion: "doe"}) 
+    |> Repo.insert()
+  
     conn = conn
       |> put_req_header("authorization", "Basic " <> Base.encode64("admin:some_pass"))
-      |> post(Routes.session_path(conn, :create), [user: [name: "jhon", password: "doe"]])
-    assert redirected_to(conn, 302) =~ "/"
+      |> post(Routes.session_path(conn, :create), [user: [email: "test@gmail.com", password: "doe", password_confirmtion: "doe"]])
+    assert text_response(conn, 200) =~ "Correct pass"
   end
 
   # DELETE
@@ -69,8 +77,9 @@ defmodule CookpodWeb.SessionControllerTest do
   end
 
   test "DELETE /sessions when session present", %{conn: conn} do
+    user = %Cookpod.User{email: "test@gmail.com"}
     conn = conn
-      |> init_test_session(%{current_user: "test"})
+      |> init_test_session(%{current_user: user})
       |> put_req_header("authorization", "Basic " <> Base.encode64("admin:some_pass"))
       |> delete(Routes.session_path(conn, :delete))
     assert redirected_to(conn, 302) =~ "/"

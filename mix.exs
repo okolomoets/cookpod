@@ -12,7 +12,7 @@ defmodule Cookpod.MixProject do
       aliases: aliases(),
       deps: deps(),
       test_coverage: [tool: ExCoveralls],
-      preferred_cli_env: [coveralls: :test, "coveralls.detail": :test, "coveralls.post": :test, "coveralls.html": :test]
+      preferred_cli_env: ["coveralls.json": :test]
     ]
   end
 
@@ -48,7 +48,8 @@ defmodule Cookpod.MixProject do
       {:excoveralls, "~> 0.12.3"},
       {:phoenix_slime, "~> 0.13.1"},
       {:credo, "~> 1.3", only: [:dev, :test], runtime: false},
-      {:basic_auth, "~> 2.2.2"}
+      {:basic_auth, "~> 2.2.2"},
+      {:argon2_elixir, "~> 2.3"}
     ]
   end
 
