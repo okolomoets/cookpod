@@ -12,7 +12,7 @@ table
       tr
         td= recipe.name
         td= recipe.description
-        td= recipe.picture
+        td= img_tag(Cookpod.Picture.url({recipe.picture, recipe}))
         td class="text-right"
           = link "Show", to: Routes.recipe_path(@conn, :show, recipe)
           = link "Edit", to: Routes.recipe_path(@conn, :edit, recipe)

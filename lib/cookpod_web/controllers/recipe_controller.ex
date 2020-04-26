@@ -15,6 +15,7 @@ defmodule CookpodWeb.RecipeController do
   end
 
   def create(conn, %{"recipe" => recipe_params}) do
+    IO.inspect recipe_params  
     case Recipes.create_recipe(recipe_params) do
       {:ok, recipe} ->
         conn
