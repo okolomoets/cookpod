@@ -17,6 +17,7 @@ defmodule CookpodWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug BasicAuth, use_config: {:cookpod, :basic_auth}
   end
 
   scope "/", CookpodWeb do
@@ -37,7 +38,9 @@ defmodule CookpodWeb.Router do
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", CookpodWeb do
-  #   pipe_through :api
-  # end
+  scope "/api/v1", CookpodWeb.Api, as: :api do
+    pipe_through [:api]
+    
+    resources "/recipes", RecipeController 
+  end
 end
