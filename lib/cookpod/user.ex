@@ -14,7 +14,7 @@ defmodule Cookpod.User do
   end
 
   @doc false
-  def changeset(user = %Cookpod.User{}, attrs) do
+  def changeset(user, attrs) do
     user
     |> cast(attrs, [:email, :password])
     |> validate_required([:email])
