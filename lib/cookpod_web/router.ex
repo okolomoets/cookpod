@@ -40,12 +40,4 @@ defmodule CookpodWeb.Router do
   # scope "/api", CookpodWeb do
   #   pipe_through :api
   # end
-
-  def handle_errors(conn, %{kind: :error, reason: %Phoenix.Router.NoRouteError{}}) do
-    conn
-    |> put_view(CookpodWeb.ErrorView)
-    |> render("404.html")
-  end
-
-  def handle_errors(conn, _), do: conn
 end
