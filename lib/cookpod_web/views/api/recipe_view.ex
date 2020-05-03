@@ -13,7 +13,7 @@ defmodule CookpodWeb.Api.RecipeView do
     %{
       id: recipe.id,
       name: recipe.name,
-      description: recipe.description 
+      description: recipe.description
     }
   end 
 end

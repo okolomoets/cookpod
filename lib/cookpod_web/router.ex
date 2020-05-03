@@ -43,4 +43,18 @@ defmodule CookpodWeb.Router do
     
     resources "/recipes", RecipeController 
   end
+
+  scope "/api/v1/swagger" do
+    forward "/", PhoenixSwagger.Plug.SwaggerUI, otp_app: :cookpod, swagger_file: "swagger.json"
+  end
+
+  def swagger_info do
+    %{
+      info: %{
+        version: "1.0",
+        title: "Cookpod"
+      },
+      basePath: "/api/v1"
+    }
+  end
 end

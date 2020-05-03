@@ -31,6 +31,15 @@ config :phoenix, :template_engines,
 
 config :cookpod, CookpodWeb.Gettext, locales: ["en", "ru"], default_locale: "ru"
 
+config :cookpod, :phoenix_swagger,
+  swagger_files: %{
+    "priv/static/swagger.json" => [
+      router: CookpodWeb.Router,     # phoenix routes will be converted to swagger paths
+      endpoint: CookpodWeb.Endpoint  # (optional) endpoint config used to set host, port and https schemes.
+    ]
+  }
+config :phoenix_swagger, json_library: Jason  
+
 config :cookpod, basic_auth: [
   username: "admin",
   password: "some_pass",

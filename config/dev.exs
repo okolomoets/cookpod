@@ -20,6 +20,7 @@ config :cookpod, CookpodWeb.Endpoint,
   debug_errors: true,
   code_reloader: true,
   check_origin: false,
+  url: [host: "localhost"],
   watchers: [
     node: [
       "node_modules/webpack/bin/webpack.js",
@@ -28,7 +29,16 @@ config :cookpod, CookpodWeb.Endpoint,
       "--watch-stdin",
       cd: Path.expand("../assets", __DIR__)
     ]
-  ]
+  ],
+  live_reload: [
+    patterns: [
+      ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
+      ~r"priv/gettext/.*(po)$",
+      ~r"lib/cookpod_web/(live|views)/.*(ex)$",
+      ~r"lib/cookpod_web/templates/.*(eex|slim|slime)$"
+    ]
+  ],
+  reloadable_compilers: [:gettext, :phoenix, :elixir, :phoenix_swagger]
 
 # ## SSL Support
 #
@@ -53,18 +63,6 @@ config :cookpod, CookpodWeb.Endpoint,
 # If desired, both `http:` and `https:` keys can be
 # configured to run both http and https servers on
 # different ports.
-
-# Watch static and templates for browser reloading.
-config :cookpod, CookpodWeb.Endpoint,
-  live_reload: [
-    patterns: [
-      ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
-      ~r"priv/gettext/.*(po)$",
-      ~r"lib/cookpod_web/(live|views)/.*(ex)$",
-      ~r"lib/cookpod_web/templates/.*(eex|slim|slime)$"
-    ]
-  ]
-
 
 config :arc,
   storage: Arc.Storage.Local
