@@ -1,4 +1,5 @@
 defmodule Cookpod.Recipes.Recipe do
+  @moduledoc false
   use Ecto.Schema
   use Arc.Ecto.Schema
   import Ecto.Changeset

@@ -1,4 +1,5 @@
 defmodule Cookpod.Picture do
+  @moduledoc false
   use Arc.Definition
   # Include ecto support (requires package arc_ecto installed):
   use Arc.Ecto.Definition
@@ -25,8 +26,7 @@ defmodule Cookpod.Picture do
   # end
 
   # Override the persisted filenames:
-  def filename(version, {_file, scope}) do
-    IO.inspect scope
+  def filename(version, _) do
     "#{version}"
   end
 
