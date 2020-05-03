@@ -6,8 +6,24 @@ defmodule Cookpod.RecipesTest do
   describe "recipes" do
     alias Cookpod.Recipes.Recipe
 
-    @valid_attrs %{description: "some description", name: "some name", picture: "some picture"}
-    @update_attrs %{description: "some updated description", name: "some updated name", picture: "some updated picture"}
+    @valid_attrs %{
+      description: "some description",
+      name: "some name", 
+      picture: %Plug.Upload{
+        path: 'test/fixtures/images/test.png',
+        content_type: "image/png",
+        filename: "test.png"
+      }
+    }
+    @update_attrs %{
+      description: "some updated description", 
+      name: "some updated name", 
+      picture: %Plug.Upload{
+        path: 'test/fixtures/images/test.png',
+        content_type: "image/png",
+        filename: "test.png"
+      }
+    }
     @invalid_attrs %{description: nil, name: nil, picture: nil}
 
     def recipe_fixture(attrs \\ %{}) do
@@ -33,7 +49,6 @@ defmodule Cookpod.RecipesTest do
       assert {:ok, %Recipe{} = recipe} = Recipes.create_recipe(@valid_attrs)
       assert recipe.description == "some description"
       assert recipe.name == "some name"
-      assert recipe.picture == "some picture"
     end
 
     test "create_recipe/1 with invalid data returns error changeset" do
@@ -45,7 +60,6 @@ defmodule Cookpod.RecipesTest do
       assert {:ok, %Recipe{} = recipe} = Recipes.update_recipe(recipe, @update_attrs)
       assert recipe.description == "some updated description"
       assert recipe.name == "some updated name"
-      assert recipe.picture == "some updated picture"
     end
 
     test "update_recipe/2 with invalid data returns error changeset" do

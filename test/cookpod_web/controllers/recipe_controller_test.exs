@@ -1,15 +1,50 @@
 defmodule CookpodWeb.RecipeControllerTest do
   use CookpodWeb.ConnCase
+  import Plug.Test
 
   alias Cookpod.Recipes
 
-  @create_attrs %{description: "some description", name: "some name", picture: "some picture"}
-  @update_attrs %{description: "some updated description", name: "some updated name", picture: "some updated picture"}
+  @create_attrs %{
+    description: "some description", 
+    name: "some name", 
+    picture: %Plug.Upload{
+      path: 'test/fixtures/images/test.png',
+      content_type: "image/png",
+      filename: "test.png"
+    }
+  }
+  @update_attrs %{
+    description: "some updated description",
+    name: "some updated name",
+    picture: %Plug.Upload{
+      path: 'test/fixtures/images/test.png',
+      content_type: "image/png",
+      filename: "test.png"
+    }
+  }
+
   @invalid_attrs %{description: nil, name: nil, picture: nil}
+
+  setup [:base_auth, :log_user_in]
 
   def fixture(:recipe) do
     {:ok, recipe} = Recipes.create_recipe(@create_attrs)
     recipe
+  end
+
+  def log_user_in(%{conn: conn}) do
+    user = %Cookpod.User{email: "test@gmail.com"}
+    conn = conn
+       |> init_test_session(%{current_user: user})
+ 
+    {:ok, conn: conn}
+  end
+
+  def base_auth(%{conn: conn}) do
+    conn = conn
+       |> put_req_header("authorization", "Basic " <> Base.encode64("admin:some_pass"))
+ 
+    {:ok, conn: conn}
   end
 
   describe "index" do
