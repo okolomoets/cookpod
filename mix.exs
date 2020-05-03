@@ -49,7 +49,9 @@ defmodule Cookpod.MixProject do
       {:phoenix_slime, "~> 0.13.1"},
       {:credo, "~> 1.3", only: [:dev, :test], runtime: false},
       {:basic_auth, "~> 2.2.2"},
-      {:argon2_elixir, "~> 2.3"}
+      {:argon2_elixir, "~> 2.3"},
+      {:arc, "~> 0.11.0"},
+      {:arc_ecto, "~> 0.11.1"}
     ]
   end
 
