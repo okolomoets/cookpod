@@ -1,5 +1,7 @@
 defmodule CookpodWeb.Api.RecipeControllerTest do
   use CookpodWeb.ConnCase
+  use PhoenixSwagger.SchemaTest, "priv/static/swagger.json"
+
   import Plug.Test
 
   alias Cookpod.Recipes
@@ -14,7 +16,7 @@ defmodule CookpodWeb.Api.RecipeControllerTest do
     }
   }
 
-  setup :base_auth
+  setup [:base_auth, :create_recipe]
 
   def base_auth(%{conn: conn}) do
     conn = conn
@@ -23,9 +25,14 @@ defmodule CookpodWeb.Api.RecipeControllerTest do
     {:ok, conn: conn}
   end
 
+  def create_recipe(_) do
+    {:ok, recipe} = Recipes.create_recipe(@create_attrs)
+    {:ok, %{recipe: recipe}}
+  end
+
+
   describe "index" do
-    test "GET /api/v1/recipes", %{conn: conn} do
-      {:ok, record} = Recipes.create_recipe(@create_attrs)
+    test "expected response data", %{conn: conn, recipe: record} do
       conn = get(conn, Routes.api_recipe_path(conn, :index))
       %{"data" => [recipe]} = json_response(conn, 200)
       
@@ -33,17 +40,30 @@ defmodule CookpodWeb.Api.RecipeControllerTest do
       assert recipe["name"] == "test name"
       assert recipe["description"] == "test description"
     end
+
+    test "schema validation", %{conn: conn, swagger_schema: schema, recipe: record} do
+      conn 
+      |> get(Routes.api_recipe_path(conn, :index))
+      |> validate_resp_schema(schema, "Recipe")
+      |> json_response(200)
+    end
   end
 
   describe "show" do
-    test "GET /api/v1/recipes/:id", %{conn: conn} do
-      {:ok, record} = Recipes.create_recipe(@create_attrs)
+    test "GET /api/v1/recipes/:id", %{conn: conn, recipe: record} do
       conn = get(conn, Routes.api_recipe_path(conn, :show, record))
       %{"data" => recipe} = json_response(conn, 200)
       
       assert recipe["id"] == record.id
       assert recipe["name"] == "test name"
       assert recipe["description"] == "test description"
+    end
+
+    test "schema validation", %{conn: conn, swagger_schema: schema, recipe: record} do    
+      conn 
+      |> get(Routes.api_recipe_path(conn, :show, record))
+      |> validate_resp_schema(schema, "Recipe")
+      |> json_response(200)
     end
   end
 end

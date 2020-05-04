@@ -10,13 +10,7 @@ defmodule CookpodWeb.Api.RecipeController do
         swagger_schema do
           title("Recipe")
           description("Endpoint to fetch recipes data.")
-
-          properties do
-            id(:integer, "Recipe ID", required: true)
-            name(:string, "Recipe name", required: true)
-            description(:string, "Recipe description", required: true)
-          end
-
+          
           example(%{
             id: 123,
             name: "Eggs",
